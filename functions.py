@@ -10,6 +10,7 @@ import functools
 from io import StringIO
 from urllib.parse import urljoin
 from collections import Counter
+import os
 
 
 """
@@ -670,6 +671,65 @@ def atomicformfactor_nist(Z):
     return form_factor_table 
 
 
+def download_form_factors(materials_data, formfactor_data):
+    """
+    Calls atomicformfactor_nist for an entire dictionary of materials to find the value of 
+    atomic form factor which is closest to the energy listed as resonant wavelength in the 
+    material database. 
+    Might take a minute to run, depending on internet connection. 
+    Will save the atomic form factors as an array of one atomic form factor value per atom in the
+    unit cell. Adds them under the key 'atomic_form_factor' to the dictionary as a numpy array.
+    """
+
+    processed_atoms = set()
+
+    for mat, properties in materials_data.items():
+        if not os.path.exists(formfactor_data):
+            os.makedirs(formfactor_data)
+
+
+        atoms = get_atoms(materials_data, mat)
+
+        # some materials only have one atom type, dont need two form factor calculations
+        if atoms[0] == atoms[-1]:
+            # download from database
+            table_1 = atomicformfactor_nist(atoms[0])  
+
+            form_factor_data = table_1[0:2,:]
+
+
+            if atoms[0] not in processed_atoms:
+                output_file_path = os.path.join(formfactor_data, f"{atoms[0]}.txt")
+                with open(output_file_path, 'a') as output_file:
+                    np.savetxt(output_file, (table_1[0,:], table_1[1,:]))
+                processed_atoms.add(atoms[0])
+                print(f'processed {atoms[0]}')
+        else:
+            # download from database
+            table_1 = atomicformfactor_nist(atoms[0])
+            table_2 = atomicformfactor_nist(atoms[-1])
+
+            form_factor_data_1 = table_1[0:2, :]
+            form_factor_data_2 = table_2[0:2, :]
+
+            if atoms[0] not in processed_atoms:
+                output_file_path_1 = os.path.join(formfactor_data, f"{atoms[0]}.txt")
+                with open(output_file_path_1, 'a') as output_file:
+                    np.savetxt(output_file, (table_1[0,:], table_1[1,:]))
+                processed_atoms.add(atoms[0])
+                print(f'processed {atoms[0]}')
+            
+            if atoms[-1] not in processed_atoms:
+                output_file_path_2 = os.path.join(formfactor_data, f"{atoms[-1]}.txt")
+                with open(output_file_path_2, 'a') as output_file:
+                    np.savetxt(output_file, (table_2[0,:], table_2[1,:]))
+                processed_atoms.add(atoms[-1])
+                print(f'processed {atoms[-1]}')
+
+        #print(properties['atom_form_factor'])
+
+
+
 def get_form_factors(materials_data):
     """
     Calls atomicformfactor_nist for an entire dictionary of materials to find the value of 
@@ -720,3 +780,73 @@ def get_form_factors(materials_data):
             properties['atom_form_factor'] = np.concatenate((form_factor_1, form_factor_2))
 
         #print(properties['atom_form_factor'])
+
+
+def get_form_factors_local(materials_data, formfactor_data):
+    """
+    Calls atomicformfactor_nist for an entire dictionary of materials to find the value of 
+    atomic form factor which is closest to the energy listed as resonant wavelength in the 
+    material database. 
+    Might take a minute to run, depending on internet connection. 
+    Will save the atomic form factors as an array of one atomic form factor value per atom in the
+    unit cell. Adds them under the key 'atomic_form_factor' to the dictionary as a numpy array.
+    """
+
+    for mat, properties in materials_data.items():
+        energy = const.h * const.c / (properties['wavelength'] * 1e-10 * const.electron_volt) 
+
+        atoms = get_atoms(materials_data, mat)
+
+        # some materials only have one atom type, dont need two form factor calculations
+        if atoms[0] == atoms[-1]:
+            count_1 = atoms.count(atoms[0])
+
+            # download from database
+            filepath = os.path.join(formfactor_data, f"{atoms[0]}.txt")
+
+            with open(filepath, 'r') as file:
+                data = np.loadtxt(file)
+                energies = data[0]
+                form_factors = data[1]
+
+                # find closest value
+                index = np.abs(energies - energy).argmin()
+                closest_form_factor = form_factors[index]
+
+                form_factor_1 = np.full(count_1, closest_form_factor)
+                properties['atom_form_factor'] = form_factor_1 
+        else:
+            count_1 = atoms.count(atoms[0])
+            count_2 = atoms.count(atoms[-1])
+
+            form_factor_1 = np.empty(count_1)
+            form_factor_2 = np.empty(count_2)
+
+            # download from database
+            filepath_1 = os.path.join(formfactor_data, f"{atoms[0]}.txt")
+            filepath_2 = os.path.join(formfactor_data, f"{atoms[-1]}.txt")
+
+
+            with open(filepath_1, 'r') as file:
+                data = np.loadtxt(file)
+                energies = data[0]
+                form_factors = data[1]
+
+                # find closest value
+                index = np.abs(energies - energy).argmin()
+                closest_form_factor = form_factors[index]
+
+                form_factor_1 = np.full(count_1, closest_form_factor)
+
+            with open(filepath_2, 'r') as file:
+                data = np.loadtxt(file)
+                energies = data[0]
+                form_factors = data[1]
+
+                # find closest value
+                index = np.abs(energies - energy).argmin()
+                closest_form_factor = form_factors[index]
+
+                form_factor_2 = np.full(count_1, closest_form_factor)
+            
+            properties['atom_form_factor'] = np.concatenate((form_factor_1, form_factor_2))

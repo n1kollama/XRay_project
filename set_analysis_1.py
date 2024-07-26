@@ -15,7 +15,7 @@ L = 1e-7
 # get material data and format it in the desired way
 materials_data = functions.read_materials_data('data_for_different_materials.txt')
 functions.remove_invalid_entries(materials_data)
-functions.get_form_factors(materials_data)
+functions.get_form_factors_local(materials_data, "formfactor_data")
 
 print(f'\n goodsoup \n Data all done and cleaned up! Starting with gain estimates now... \n \n ')
 

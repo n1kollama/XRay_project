@@ -92,5 +92,3 @@ delta_max = np.abs(max_n - max_n_yariv)
 print(f'Max. n as calculated by me: {max_n}')
 print(f'Max. n as calculated from Yariv paper: {max_n_yariv}')
 print(f'Difference of Maxima: {delta_max}')
-
-print(functions.get_atomic_form_factor('26', 1.5406))

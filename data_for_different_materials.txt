@@ -328,6 +328,22 @@ Positions:
     O 0 0 0.5
     O 0.5 0.5 0.5
 
+Material: CuO440
+Miller: 4 4 0
+Dimensions: 4.23 4.23 4.23
+Angles: 90 90 90
+Wavelength: 1.5
+Electrons: 29 8
+Positions: 
+    Cu 0 0 0
+    Cu 0.5 0.5 0
+    Cu 0.5 0 0.5
+    Cu 0 0.5 0.5
+    O 0 0.5 0 
+    O 0.5 0 0
+    O 0 0 0.5
+    O 0.5 0.5 0.5
+
 Material: BiN
 Miller: 1 1 1
 Dimensions: 3.18 3.18 3.18
@@ -335,14 +351,8 @@ Angles: 90 90 90
 Wavelength: 3.67
 Electrons: 83 7
 Positions: 
-    Bi 0 0 0
-    Bi 0.5 0.5 0
-    Bi 0.5 0 0.5
-    Bi 0 0.5 0.5
-    N 0 0.5 0 
-    N 0.5 0 0
-    N 0 0 0.5
-    N 0.5 0.5 0.5
+    Bi 2 2 2
+    N 2 2 2
 
 Material: ScN
 Miller: 1 1 1
@@ -609,8 +619,18 @@ Angles: 90 90 90
 Wavelength: 4.92
 Electrons: 3 8
 Positions: 
-    Li 2 2 2
-    O 2 2 2
+    Li 0.25 0.75 0.25
+    Li 0.25 0.25 0.75
+    Li 0.25 0.25 0.25
+    Li 0.75 0.25 0.25
+    Li 0.75 0.75 0.25
+    Li 0.75 0.75 0.75
+    Li 0.75 0.25 0.75
+    Li 0.25 0.75 0.75
+    O 0 0 0
+    O 0.5 0 0.5
+    O 0 0.5 0.5
+    O 0.5 0.5 0
 
 Material: La2O3
 Miller: 1 1 0

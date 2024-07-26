@@ -11,7 +11,7 @@ def exp_gain(g_0, lam, lam_peak, sigma):
 
 materials_data = functions.read_materials_data('data_for_different_materials.txt')
 functions.remove_invalid_entries(materials_data)
-functions.get_form_factors(materials_data)
+functions.get_form_factors_local(materials_data, "formfactor_data")
 
 print(f'\n goodsoup \n Data all done and cleaned up! Starting with the rest of the shit... \n \n ')
 
@@ -21,11 +21,13 @@ res_lam = materials_data[material_name]['wavelength']
 n_GaP = 3
 n_CuO = 1
 L = 1e-7
+N = 1000
 
-l = np.linspace(res_lam - 0.02, res_lam + 0.02, 1000)
-del_a = 0.01 # angstrom
-gain = np.empty(1000)
-del_lam = np.empty(1000)
+l = np.linspace(4.85, 4.9, N)
+del_a = 0.1 # angstrom
+gain = np.empty(N)
+del_lam = np.empty(N)
+
 
 for i, li in enumerate(l):
     n = functions.find_max_n_lam(materials_data, material_name, li)
@@ -47,32 +49,39 @@ plt.xlabel(f'Wavelength [Angstrom]')
 plt.ylabel(f'Gain [nm**(-1)]')
 plt.show()
 
-a = np.array([a_0 - del_a, a_0, a_0 + del_a])
-gain_ar = np.empty((1000, 3))
-del_lam_ar = np.empty((1000, 3))
-gain_f_ar = np.empty((1000, 3))
-sigma_ar = np.empty((1000, 3))
 
-for j, aj in enumerate(a):
-    materials_data[material_name]['dimensions'][0] = aj
-    materials_data[material_name]['wavelength'] = 2 * materials_data[material_name]['dimensions'][0] / np.sqrt(3)
+a_ar = np.linspace(a_0 - 4*del_a, a_0 + 4*del_a, N)
+gain_ar = np.empty(N)
+orig = materials_data[material_name]['dimensions'][0] #original lattice parameter
 
-    print(materials_data[material_name]['wavelength'])
+for i, ai in enumerate(a_ar):
+    materials_data[material_name]['dimensions'][0] = ai 
+    print(materials_data[material_name]['dimensions'][0])
 
-    for i, li in enumerate(l):
-        n = functions.find_max_n_lam(materials_data, material_name, li)
-        kappa = functions.coupling_constant_db(n, li)
-        gain_ar[i, j] = functions.threshold_gain_db(L, kappa)
+    n = functions.find_max_n_lam(materials_data, material_name, res_lam)
+    k = functions.coupling_constant_db(n, res_lam)
+    gain_ar[i] = functions.threshold_gain_db(L, k)
 
-        del_lam_ar[i, j] = materials_data[material_name]['wavelength'] * np.arcsin((n)/(n_CuO))
-
-    sigma_ar[:, j] = del_lam_ar[:, j]/(2 * np.sqrt(2 * np.log(2)))
-    gain_f_ar[:, j] = exp_gain(gain_ar[:, j], l, materials_data[material_name]['wavelength'], del_lam_ar[:,j])
-
-plt.plot(l, gain_f_ar[:,0], 'r-', label='a = a_0 - del_a')
-plt.plot(l, gain_f_ar[:,1], 'b.', label='a = a_0')
-plt.plot(l, gain_f_ar[:,2], 'g-.', label='a = a_0 + del_a')
-plt.xlabel(f'Wavelength [Angstrom]')
-plt.ylabel(f'Gain [nm**(-1)]')
-plt.legend()
+plt.figure(figsize=(10, 8))
+plt.plot(a_ar, gain_ar)
+plt.xlabel(f'Lattice parameter detuning')
+plt.ylabel(f'Gain estimate')
 plt.show()
+
+
+
+
+materials_data = functions.read_materials_data('data_for_different_materials.txt')
+functions.remove_invalid_entries(materials_data)
+functions.get_form_factors_local(materials_data, "formfactor_data")
+
+print(materials_data['CuO440'])
+print(materials_data['CuO'])
+
+n_4 = functions.find_max_n(materials_data, 'CuO440')
+k_4 = functions.coupling_constant_db(n, materials_data['CuO440']['wavelength'])
+g_4 = functions.threshold_gain_db(L, k_4)
+
+print(n_4)
+print(k_4)
+print(g_4)
