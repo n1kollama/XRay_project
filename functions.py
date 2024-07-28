@@ -16,14 +16,12 @@ import os
 """
 To calculate material properties in the context of an x-ray lasing system making use of the coupling of Bragg reflected light within a crystal.
 
-To be done:
-- refractive index function: phase mismatch/amplitude divergences
-- add tolerance tests
 """
 
 ###############################################################################
 ### to calculate atomic form factor and structure factor
 
+# not needed in code as it is now, but works if you have the fit parameters for the respective element.
 def atomic_form_factor(element, params, q_magnitude):
     """
     Calculate the atomic form factor for a given element and scattering vector.
@@ -49,6 +47,7 @@ def atomic_form_factor(element, params, q_magnitude):
 
     return f
 
+
 def calculate_q_vector(miller, unitcell_lengths, unitcell_angles):
     """
     Calculate the scattering vector from Miller indices and the unit cell parameters in order to use it in further calculations.
@@ -65,7 +64,7 @@ def calculate_q_vector(miller, unitcell_lengths, unitcell_angles):
     a, b, c = unitcell_lengths
     alpha, beta, gamma = np.radians(unitcell_angles)
 
-    # calculate reciprocal lattice vectors
+    # calculate reciprocal lattice volume
     V = a * b * c * np.sqrt(
         1 - np.cos(alpha)**2 - np.cos(beta)**2 - np.cos(gamma)**2 +
         2 * np.cos(alpha) * np.cos(beta) * np.cos(gamma)
@@ -80,6 +79,7 @@ def calculate_q_vector(miller, unitcell_lengths, unitcell_angles):
     return q 
 
 
+# calculate structure factor via atom form factor function. not needed in the further files at the moment.
 def structure_factor(miller, unitcell_lengths, unitcell_angles, atomic_positions, atomic_elements, params):
     """
     Calculate the structure factor depending on material parameters of a crystal.
@@ -125,6 +125,7 @@ def structure_factor_db(miller, unitcell_lengths, unitcell_angles, atomic_positi
     unitcell_angles (float array): unit cell angles in degrees
     atomic_positions (np.ndarray): atomic positions in the unit cell (Nx3 shape)
     atomic_elements (list): List of symbols of the elements
+    form_factors (float array): atomic form factors of all elements of the material, in the same order as the respective positions and elements appear.
 
     Returns: 
     structure factor S(hkl)
@@ -153,14 +154,12 @@ def structure_factor_db(miller, unitcell_lengths, unitcell_angles, atomic_positi
 
 
 
-
-
 ##########################################################################
-### refractive index equation for a set ksi (maybe delete)
+### refractive index calculation equations
 
 def refractive_index(N_0, lamb, miller, unitcell_lengths, unitcell_angles, atomic_positions, atomic_elements, params):
     """
-    Calculate the refractive index depending on material parameters of a crystal.
+    Calculate the refractive index depending on material parameters of a crystal. 
 
     Parameters:
     N_0 (float): total electron density in one unit volume
@@ -205,18 +204,18 @@ def refractive_index(N_0, lamb, miller, unitcell_lengths, unitcell_angles, atomi
     return deltan
 
 
+
+# refractive index determination that makes use of the materials database. this is the one used in further code.
 def refractive_index_db(materials_data, material_name, ksi):
     """
-    Calculate the refractive index depending on material parameters of a crystal.
+    Calculate the refractive index depending on material parameters of a crystal. 
 
     Parameters:
-    N_0 (float): total electron density in one unit volume
-    lamb (float): wavelength of considered light
-    miller (float array): [h, k, l], Miller indices
-    unitcell_lengths (float array): [a, b, c], unit cell lengths
-    unitcell_angles (float array): unit cell angles in degrees
-    atomic_positions (np.ndarray): atomic positions in the unit cell (Nx3 shape)
-    atomic_elements (list): List of symbols of the elements
+    materials_data (python dictionary): database with a selection of materials and their properties. should contain miller indices to be considered, 
+                                        resonant wavelength, unitcell dimensions, unitcell angles, and positions of the atoms in the unit cell as
+                                        fractional coordinates, as well as atomic number.
+    material_name (string): name of the material to be considered. has to be included in the materials database.
+    ksi (float): distance r along the direction to be considered. refractive index will be determined at this distance.
 
     Returns: 
     refractive index (modulated due to crystal lattice's periodic structure)
@@ -266,16 +265,15 @@ def refractive_index_db(materials_data, material_name, ksi):
 
 def refractive_index_lam(materials_data, material_name, ksi, lambd):
     """
-    Calculate the refractive index depending on material parameters of a crystal.
+    Calculate the refractive index depending on material parameters of a crystal. 
 
     Parameters:
-    N_0 (float): total electron density in one unit volume
-    lamb (float): wavelength of considered light
-    miller (float array): [h, k, l], Miller indices
-    unitcell_lengths (float array): [a, b, c], unit cell lengths
-    unitcell_angles (float array): unit cell angles in degrees
-    atomic_positions (np.ndarray): atomic positions in the unit cell (Nx3 shape)
-    atomic_elements (list): List of symbols of the elements
+    materials_data (python dictionary): database with a selection of materials and their properties. should contain miller indices to be considered, 
+                                        resonant wavelength, unitcell dimensions, unitcell angles, and positions of the atoms in the unit cell as
+                                        fractional coordinates, as well as atomic number.
+    material_name (string): name of the material to be considered. has to be included in the materials database.
+    ksi (float): distance r along the direction to be considered. refractive index will be determined at this distance.
+    lambd (float): consider material where the used wavelength differs from the ideal resonant wavelength of the system.
 
     Returns: 
     refractive index (modulated due to crystal lattice's periodic structure)
@@ -307,15 +305,12 @@ def refractive_index_lam(materials_data, material_name, ksi, lambd):
 
     # calculate modulation of index of refraction
     a_G = - N_0 * const.e**2 / (2 * N * omega**2 * const.m_e * const.epsilon_0) * s 
-
-    #unitcell_lengths[0] *= 1e-10
-    #print(unitcell_lengths[0])
+    
     # calculate phase term
     phase_term = np.exp(2j * np.pi * ksi * np.sqrt(3) / unitcell_lengths[0])
 
     # calculate n
     n = a_G * phase_term 
-    #print(n)
     deltan = np.real(n)
 
     return deltan
@@ -356,6 +351,9 @@ def coupling_constant(N_0, lamb, miller, unitcell_lengths, unitcell_angles, atom
     return kappa
 
 def coupling_constant_db(n, lambd):
+    """
+    Calculate the coupling constant using an already known refractive index modulation and already known wavelength lambda.
+    """
     lambd *= 1e-10
     kappa = 2 * np.pi * const.c / lambd * n / (2 * const.c)
 
@@ -389,9 +387,11 @@ def threshold_gain(L, N_0, lamb, miller, unitcell_lengths, unitcell_angles, atom
     return g
 
 def threshold_gain_db(L, kappa):
-
+    """
+    Calculate the coupling constant using an already known coupling constant and already known system dimension L.
+    """
     g = (1/L**3) * (np.pi / kappa)**2
-    #get in nm⁻1
+    # transform to nm⁻1
     g *= 1e-9
     return g
 
@@ -406,7 +406,8 @@ def threshold_gain_db(L, kappa):
 
 
 ##############################################################################
-### functions for refractive index depending on the diffrent distances along d
+### functions used to compare with results of Yariv paper. not relevant for 
+### further analysis.
 
 def deltan_paper_eq(N_0, lambd, ksi, a_0):
     """
@@ -481,13 +482,21 @@ def refractive_index_ksi(ksi, N_0, lamb, miller, unitcell_lengths, unitcell_angl
 
 
 
-
+######################################################################################
+### functions used to find the maximum index of reflection modulation.
 
 
 def find_max_n(materials_data, material):
     """
     Function that takes material properties and gives back the maximum refractive 
     index modulation.
+
+    Parameters:
+    materials_data (dictionary): database with material properties
+    material (string): symbol of the material that is to be analyzed
+
+    Returns:
+    maximum of index of refraction modulation
     """
     unitcell_l = materials_data[material]['dimensions']
 
@@ -501,7 +510,15 @@ def find_max_n(materials_data, material):
 def find_max_n_lam(materials_data, material, lambd):
     """
     Function that takes material properties and gives back the maximum refractive 
-    index modulation.
+    index modulation. Used in case the applied wavelength is not the resonant wavelength of the material.
+
+    Parameters:
+    materials_data (dictionary): database with material properties
+    material (string): symbol of the material that is to be analyzed
+    lambd (string): used wavelength in angstrom
+
+    Returns:
+    maximum of index of refraction modulation
     """
 
     unitcell_l = materials_data[material]['dimensions']
@@ -531,6 +548,7 @@ def read_materials_data(file_path):
     atoms in unit cell.
 
     """
+    # set up material dictionary and read from file
     materials = {}
     with open(file_path, 'r') as file:
         lines = file.readlines()
@@ -538,6 +556,7 @@ def read_materials_data(file_path):
     material = None 
     reading_positions = False 
 
+    # iterate through the read document and extract all necessary information for each line
     for line in lines:
         line = line.strip()
         if line.startswith('Material:'):
@@ -578,17 +597,21 @@ def read_materials_data(file_path):
 def get_atom_positions_as_numpy_array(material_data, material_name):
     """
     Function to obtain an array of the positions of the atom in a given 
-    material. Requires as imput a list of material data and the name of 
-    the material in question. 
+    material. 
+    Requires as imput a dictionary of material data and the name of the material 
+    in question. 
+
     Returns a numpy array of atom positions.
     """
 
+    # check first if the material is contained in the database
     if material_name in material_data:
         positions = material_data[material_name]['positions']
         position_array = np.array([[float(pos[1]), float(pos[2]), float(pos[3])] for pos in positions])
         return position_array
     else:
         print(f"Material {material_name} not found.")
+
 
 def get_atoms(material_data, material_name):
     """
@@ -784,12 +807,9 @@ def get_form_factors(materials_data):
 
 def get_form_factors_local(materials_data, formfactor_data):
     """
-    Calls atomicformfactor_nist for an entire dictionary of materials to find the value of 
-    atomic form factor which is closest to the energy listed as resonant wavelength in the 
-    material database. 
-    Might take a minute to run, depending on internet connection. 
-    Will save the atomic form factors as an array of one atomic form factor value per atom in the
-    unit cell. Adds them under the key 'atomic_form_factor' to the dictionary as a numpy array.
+    Takes the atomic form factors of each material in materials_data from the folder formfactor_data and adds 
+    it to the dictionary uder the key atom_form_factor. material information has to be contained in a text file 
+    in the folder mentioned before with the name of the atom symbol.
     """
 
     for mat, properties in materials_data.items():

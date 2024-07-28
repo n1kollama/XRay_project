@@ -1,0 +1,22 @@
+# CuO: Lattice plane Wavelength Gain 
+[1 1 1] 0.488 0.017707461736505822
+# CuO: Lattice plane Wavelength Gain 
+[2 0 0] 0.4234 0.007319057991595623
+# CuO: Lattice plane Wavelength Gain 
+[2 2 0] 0.29940000000000005 0.014637041480554612
+# CuO: Lattice plane Wavelength Gain 
+[3 1 1] 0.25520000000000004 0.06474923116079655
+# CuO: Lattice plane Wavelength Gain 
+[2 2 2] 0.2444 0.021966177693791798
+# CuO: Lattice plane Wavelength Gain 
+[4 0 0] 0.2116 0.0293039098017233
+# CuO: Lattice plane Wavelength Gain 
+[3 3 1] 0.1942 0.11181434005782634
+# CuO: Lattice plane Wavelength Gain 
+[4 2 0] 0.1894 0.03657606211723588
+# CuO: Lattice plane Wavelength Gain 
+[4 2 2] 0.1728 0.04394094769603079
+# CuO: Lattice plane Wavelength Gain 
+[5 1 1] 0.163 0.15871601369183794
+# CuO: Lattice plane Wavelength Gain 
+[4 4 0] 0.15000000000000002 0.05831420745119326
