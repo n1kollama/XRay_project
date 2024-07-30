@@ -19,8 +19,12 @@ functions.get_form_factors_local(materials_data, "formfactor_data")
 
 output_dir = 'results'
 
-# probe size
-L = 1e-6
+# define volume of the probe
+L_x = 1e-7
+L_y = 1e-7
+L_z = 1e-7
+
+L = np.array([L_x, L_y, L_z])
 
 # obtain data for copper oxide. if material is changed, the array with miller indices and d spacing have to be 
 # updated as well.

@@ -1,43 +1,43 @@
 Data for CdTe:
 Refractive index modulation maximum: 0.00026103169207641186
 Coupling Constant: 1096330.5430232198 
-Gain estimate: 8.211390739253705 
+Gain estimate: 8.211390739253707 
 Resonance wavelength: 0.7480000000000001 
  
 Data for InSb:
 Refractive index modulation maximum: 0.00026060788781655063
 Coupling Constant: 1094550.5692941553 
-Gain estimate: 8.238119416078057 
+Gain estimate: 8.238119416078058 
 Resonance wavelength: 0.7480000000000001 
  
 Data for PbTe:
 Refractive index modulation maximum: 5.437613743698771e-05
 Coupling Constant: 228991.51997671518 
-Gain estimate: 188.2179096090417 
+Gain estimate: 188.21790960904173 
 Resonance wavelength: 0.746 
  
 Data for GaSb:
 Refractive index modulation maximum: 0.00023275148168318792
 Coupling Constant: 1038651.0581932421 
-Gain estimate: 9.148721548688947 
+Gain estimate: 9.148721548688949 
 Resonance wavelength: 0.7040000000000001 
  
 Data for InAs:
 Refractive index modulation maximum: 0.00023303826665428337
 Coupling Constant: 1045873.2950377082 
-Gain estimate: 9.022805536392907 
+Gain estimate: 9.022805536392909 
 Resonance wavelength: 0.7000000000000001 
  
 Data for CdSe:
 Refractive index modulation maximum: 0.00023358074460756278
 Coupling Constant: 1049807.6556211056 
-Gain estimate: 8.955302788477407 
+Gain estimate: 8.95530278847741 
 Resonance wavelength: 0.6990000000000001 
  
 Data for PbS:
 Refractive index modulation maximum: 0.000236455887138607
 Coupling Constant: 1082868.9182692494 
-Gain estimate: 8.416818629133823 
+Gain estimate: 8.416818629133825 
 Resonance wavelength: 0.686 
  
 Data for InP:
@@ -49,7 +49,7 @@ Resonance wavelength: 0.678
 Data for CdS:
 Refractive index modulation maximum: 0.00020695519510649318
 Coupling Constant: 966075.6620635977 
-Gain estimate: 10.574929065305877 
+Gain estimate: 10.574929065305879 
 Resonance wavelength: 0.673 
  
 Data for AlAs:
@@ -61,19 +61,19 @@ Resonance wavelength: 0.654
 Data for Ge:
 Refractive index modulation maximum: 0.00019101837652994562
 Coupling Constant: 917587.0464940766 
-Gain estimate: 11.722093936097513 
+Gain estimate: 11.722093936097515 
 Resonance wavelength: 0.654 
  
 Data for GaAs:
 Refractive index modulation maximum: 0.00019097223616992875
 Coupling Constant: 920179.4082685016 
-Gain estimate: 11.656139182009653 
+Gain estimate: 11.656139182009655 
 Resonance wavelength: 0.652 
  
 Data for AlP:
 Refractive index modulation maximum: 8.662398526288922e-05
 Coupling Constant: 432650.67683078424 
-Gain estimate: 52.72601762483239 
+Gain estimate: 52.726017624832394 
 Resonance wavelength: 0.629 
  
 Data for GaP:
@@ -85,7 +85,7 @@ Resonance wavelength: 0.629
 Data for Si:
 Refractive index modulation maximum: 8.699265724342818e-05
 Coupling Constant: 435877.97912632994 
-Gain estimate: 51.94812632907444 
+Gain estimate: 51.94812632907445 
 Resonance wavelength: 0.627 
  
 Data for ZnS:
@@ -97,19 +97,19 @@ Resonance wavelength: 0.626
 Data for CrO:
 Refractive index modulation maximum: 8.27770016470908e-05
 Coupling Constant: 505937.00439823087 
-Gain estimate: 38.557321380741996 
+Gain estimate: 38.55732138074201 
 Resonance wavelength: 0.514 
  
 Data for FeO:
 Refractive index modulation maximum: 9.818706648708061e-05
 Coupling Constant: 626958.8755149288 
-Gain estimate: 25.10855014301761 
+Gain estimate: 25.108550143017613 
 Resonance wavelength: 0.492 
  
 Data for MnO:
 Refractive index modulation maximum: 8.840377273525744e-05
 Coupling Constant: 540328.0991725806 
-Gain estimate: 33.80528791504929 
+Gain estimate: 33.8052879150493 
 Resonance wavelength: 0.514 
  
 Data for CuO:
@@ -121,31 +121,31 @@ Resonance wavelength: 0.488
 Data for CuO440:
 Refractive index modulation maximum: 1.964283055490874e-05
 Coupling Constant: 411398.48111340275 
-Gain estimate: 58.31420745119328 
+Gain estimate: 58.3142074511933 
 Resonance wavelength: 0.15000000000000002 
  
 Data for ScN:
 Refractive index modulation maximum: 7.0528462969103e-05
 Coupling Constant: 425281.57607046777 
-Gain estimate: 54.56907698407885 
+Gain estimate: 54.569076984078855 
 Resonance wavelength: 0.521 
  
 Data for TiN:
 Refractive index modulation maximum: 8.110041558915153e-05
 Coupling Constant: 519968.30575093377 
-Gain estimate: 36.50446606998866 
+Gain estimate: 36.504466069988666 
 Resonance wavelength: 0.49000000000000005 
  
 Data for VN:
 Refractive index modulation maximum: 8.966882222784065e-05
 Coupling Constant: 591812.842787885 
-Gain estimate: 28.179350212518493 
+Gain estimate: 28.179350212518496 
 Resonance wavelength: 0.476 
  
 Data for CrN:
 Refractive index modulation maximum: 9.42075628300821e-05
 Coupling Constant: 611491.2960735223 
-Gain estimate: 26.39484925324174 
+Gain estimate: 26.39484925324175 
 Resonance wavelength: 0.484 
  
 Data for MnN:
@@ -157,7 +157,7 @@ Resonance wavelength: 0.47800000000000004
 Data for FeN:
 Refractive index modulation maximum: 0.000152671793569844
 Coupling Constant: 988933.1651327823 
-Gain estimate: 10.091735559370537 
+Gain estimate: 10.09173555937054 
 Resonance wavelength: 0.485 
  
 Data for CoN:
@@ -169,55 +169,55 @@ Resonance wavelength: 0.48700000000000004
 Data for GaN:
 Refractive index modulation maximum: 0.00017706192714061778
 Coupling Constant: 1128309.228266564 
-Gain estimate: 7.75253016987708 
+Gain estimate: 7.7525301698770805 
 Resonance wavelength: 0.493 
  
 Data for NiO:
 Refractive index modulation maximum: 0.00011160882237193737
 Coupling Constant: 724441.0257014186 
-Gain estimate: 18.80588048654064 
+Gain estimate: 18.805880486540644 
 Resonance wavelength: 0.484 
  
 Data for MgO:
 Refractive index modulation maximum: 2.2525360767718666e-05
 Coupling Constant: 145608.04096157345 
-Gain estimate: 465.51001380487435 
+Gain estimate: 465.5100138048744 
 Resonance wavelength: 0.48600000000000004 
  
 Data for CaO:
 Refractive index modulation maximum: 5.4976736625033937e-05
 Coupling Constant: 311197.31873792346 
-Gain estimate: 101.91264011971727 
+Gain estimate: 101.91264011971728 
 Resonance wavelength: 0.555 
  
 Data for SrO:
 Refractive index modulation maximum: 0.0001107257348349976
 Coupling Constant: 582671.9516263985 
-Gain estimate: 29.070434294095463 
+Gain estimate: 29.070434294095467 
 Resonance wavelength: 0.597 
  
 Data for BaO:
 Refractive index modulation maximum: 0.00019607623585812751
 Coupling Constant: 956508.7921047095 
-Gain estimate: 10.787524937146543 
+Gain estimate: 10.787524937146545 
 Resonance wavelength: 0.6440000000000001 
  
 Data for Li2O:
 Refractive index modulation maximum: 2.8677205724807673e-05
 Coupling Constant: 183114.0220132905 
-Gain estimate: 294.34491789703884 
+Gain estimate: 294.3449178970389 
 Resonance wavelength: 0.492 
  
 Data for LaN:
 Refractive index modulation maximum: 0.00021721506483216255
 Coupling Constant: 1115034.7253688765 
-Gain estimate: 7.93821687568338 
+Gain estimate: 7.938216875683381 
 Resonance wavelength: 0.6120000000000001 
  
 Data for GdN:
 Refractive index modulation maximum: 0.0002613944626684072
 Coupling Constant: 1428165.0845358598 
-Gain estimate: 4.838858502846509 
+Gain estimate: 4.83885850284651 
 Resonance wavelength: 0.5750000000000001 
  
 Data for HoN:
@@ -229,6 +229,6 @@ Resonance wavelength: 0.561
 Data for LuN:
 Refractive index modulation maximum: 0.00030163525954645206
 Coupling Constant: 1738743.3311096956 
-Gain estimate: 3.264591088850776 
+Gain estimate: 3.2645910888507763 
 Resonance wavelength: 0.545 
  

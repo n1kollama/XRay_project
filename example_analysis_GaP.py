@@ -25,7 +25,8 @@ calculated with this method by hand an on nanometer
 # parameters and changing units
 N_0 = 8.1e23 * 1e6# me-1
 lambd = 6.154e-10 # m
-L_1 = 1e-2 * 1e-2 # m
+L_1 = np.array([1e-2, 1e-2, 1e-2]) # m
+
 
 
 

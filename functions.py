@@ -381,16 +381,23 @@ def threshold_gain(L, N_0, lamb, miller, unitcell_lengths, unitcell_angles, atom
     Returns: 
     Threshold gain g.
     """
-    kappa = coupling_constant(N_0, lamb, miller, unitcell_lengths, unitcell_angles, atomic_positions, atomic_elements, params)
-    g = (1/L**3) * (np.pi / kappa)**2
+    L_x, L_y, L_z = L
+    V = L_x * L_y * L_z
 
+    kappa = coupling_constant(N_0, lamb, miller, unitcell_lengths, unitcell_angles, atomic_positions, atomic_elements, params)
+    g = (1/V) * (np.pi / kappa)**2
+    # transform to nm⁻1
+    g *= 1e-9
     return g
 
 def threshold_gain_db(L, kappa):
     """
     Calculate the coupling constant using an already known coupling constant and already known system dimension L.
     """
-    g = (1/L**3) * (np.pi / kappa)**2
+    L_x, L_y, L_z = L
+    V = L_x * L_y * L_z
+
+    g = (1/V) * (np.pi / kappa)**2
     # transform to nm⁻1
     g *= 1e-9
     return g

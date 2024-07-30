@@ -14,6 +14,19 @@ analogous to a Bragg mirror.
 Output is given as plots in "gain_tolerance_wavelength.pdf" and "gain_tolerance_a0.pdf", respectively, as well as in
 text files of [gain, wavelength] in "gain_tolerance_wavelength_table.txt", and [gain, lattice parameter] in 
 "gain_tolerance_a0_table.txt".
+
+To change the material and lattice plane: go to lines 48 - 51, here you can set the material formula (has to follow the 
+same format as the example in the code right now) and the lattice plane.
+For lattice plane: the code will say materials_data[material_name]['miller_indices] = np.array([x, x, x]) with the xs some 
+random numbers. You can set the xs as some miller indices that you want. Any should be valid. It is important to only 
+change the numbers and not the code structure otherwise, else it will throw an error. 
+The following line allows you to change the resonant wavelength of the material, it will not be calculated automatically 
+and has to be entered by hand. 
+By default, these lines are commented out (they have the # at the beginning of the line). This means that they will not 
+be executed. In order to execute these lines, you have to remove the # at the beginning of the line. Once you are done 
+with the different lattice plane you can put the # in place at the beginning of the line again and the code will once again 
+execute for the default miller indices and corresponding resonant wavelength once you run it again.
+Note: do not comment out the line which sets the name of the material you want to consider. This line always has to be executed.
 """
 
 # assumed gaussian curve
@@ -26,18 +39,33 @@ materials_data = functions.read_materials_data('data_for_different_materials.txt
 functions.remove_invalid_entries(materials_data)
 functions.get_form_factors_local(materials_data, "formfactor_data")
 
-print(f'\n goodsoup \n Data all done and cleaned up! Starting with the rest of the shit... \n \n ')
+print(f'\n goodsoup: \n Data all done and cleaned up! Starting with the rest of the work... \n \n ')
 
 output_dir = 'results'
 
+
 # material for which to determine these plots, and extract this materials ideal values of lattice parameter and 
 # resonance wavelength
+# lattice plane; uncomment for changing it from the predetermined one in the database
 material_name = 'CuO'
+#materials_data[material_name]['miller_indices'] = np.array([1, 1, 1])
+#materials_data[material_name]['wavelength'] = 4.88
+
+
+
 a_0 = materials_data[material_name]['dimensions'][0]
 res_lam = materials_data[material_name]['wavelength']
 n_bulk = 1   # bulk refractive index of the material, is assumed to be approx. 1 for xrays. can be specified if necessary.
-L = 1e-7
+
 N = 1000 # number of data points for the plots. reduce for faster evaluation.
+
+
+# define volume of the crystal
+L_x = 1e-7
+L_y = 1e-7
+L_z = 1e-7
+
+L = np.array([L_x, L_y, L_z])
 
 # modification parameters
 l = np.linspace(4.85, 4.9, N) # array of values for the wavelength to iterate through, format (min, max, number of values)

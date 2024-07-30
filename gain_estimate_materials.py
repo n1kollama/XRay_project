@@ -14,8 +14,12 @@ Output as a plot saved in "gain_vs_wavelength_scatter.pdf", as a table of [mater
 constant, gain] in "gain_vs_wavelength_list.txt".
 """
 
-# probe dimensions in x, y, z direction
-L = 1e-7
+# define volume of the probe
+L_x = 1e-7
+L_y = 1e-7
+L_z = 1e-7
+
+L = np.array([L_x, L_y, L_z])
 
 # get material data from text file, remove invalid entries (where the atom positions are not specified), and 
 # get form factors from the folder that saves the form factor data for all materials.
@@ -23,7 +27,7 @@ materials_data = functions.read_materials_data('data_for_different_materials.txt
 functions.remove_invalid_entries(materials_data)
 functions.get_form_factors_local(materials_data, "formfactor_data")
 
-print(f'goodsoup \n Data all done and cleaned up! Starting with gain estimates now... ')
+print(f'goodsoup: \n Data all done and cleaned up! Starting with gain estimates now... ')
 
 # prepare output arrays
 output_dir = 'results'
